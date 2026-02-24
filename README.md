@@ -1,4 +1,4 @@
-### HMS - Authentication & User Management Module
+## HMS - Authentication & User Management Module
 
 This is Phase 1, Module 1 of the Hospital Management System (HMS), designed for offline LAN use. It features a robust Spring Boot backend paired with a premium React frontend based on Vite. 
 

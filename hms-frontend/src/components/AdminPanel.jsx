@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../api/axios';
-import { UserPlus, Settings, Lock, Unlock, Eye, RefreshCw, X } from 'lucide-react';
+import { UserPlus, Settings, Lock, Unlock, RefreshCw, X } from 'lucide-react';
 
 const AdminPanel = () => {
     const [users, setUsers] = useState([]);

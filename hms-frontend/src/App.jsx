@@ -1,11 +1,12 @@
 import React, { useContext, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { AuthProvider, AuthContext } from './context/AuthContext';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ForcePasswordChange from './components/ForcePasswordChange';
 import Topbar from './components/Topbar';
 import Patients from './pages/Patients';
+import Services from './pages/Services';
 
 const AutoLogout = ({ children }) => {
     const { logout } = useContext(AuthContext);
@@ -91,6 +92,14 @@ function AppRoutes() {
                 element={
                     <ProtectedRoute allowedRoles={['ADMIN', 'RECEPTION']}>
                         <Patients />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/services"
+                element={
+                    <ProtectedRoute allowedRoles={['ADMIN', 'RECEPTION', 'SUPERVISOR']}>
+                        <Services />
                     </ProtectedRoute>
                 }
             />

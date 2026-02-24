@@ -227,7 +227,7 @@ const Patients = () => {
                                 <input
                                     type="text"
                                     placeholder="Fast Search by Patient ID, Phone, or Name..."
-                                    style={{ width: '100%', paddingLeft: '3rem', fontSize: '1.1rem', background: '#1c2235' }}
+                                    style={{ width: '100%', padding: '0.75rem 0.75rem 0.75rem 3rem', fontSize: '1.1rem', background: 'var(--bg-color)', border: '1px solid var(--border-color)', borderRadius: '6px', color: 'var(--text-primary)' }}
                                     value={searchQuery}
                                     onChange={e => setSearchQuery(e.target.value)}
                                 />
@@ -278,8 +278,8 @@ const Patients = () => {
             )}
 
             {isModalOpen && (
-                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.8)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100 }}>
-                    <div className="panel" style={{ width: '600px', padding: '2rem', maxHeight: '90vh', overflowY: 'auto' }}>
+                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100 }}>
+                    <div className="panel" style={{ width: '600px', padding: '2rem', maxHeight: '90vh', overflowY: 'auto', background: 'var(--panel-bg)', border: '1px solid var(--border-color)', borderRadius: '12px', boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}>
                         <h2 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
                             <FileText size={24} color="var(--brand-color)" /> {isEditMode ? 'Update Demographics' : 'New Patient Registration'}
                         </h2>
@@ -345,7 +345,7 @@ const Patients = () => {
 
                             <div className="form-group">
                                 <label>Residential Address</label>
-                                <textarea rows="2" style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid var(--border-color)', background: '#1c2235', color: '#fff' }} value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })}></textarea>
+                                <textarea rows="2" style={{ width: '100%', padding: '0.75rem', borderRadius: '4px', border: '1px solid var(--border-color)', background: 'var(--bg-color)', color: 'var(--text-primary)' }} value={formData.address} onChange={e => setFormData({ ...formData, address: e.target.value })}></textarea>
                             </div>
 
                             <div style={{ display: 'flex', gap: '1rem', marginTop: '2rem' }}>
@@ -360,8 +360,8 @@ const Patients = () => {
             )}
 
             {isMergeModalOpen && (
-                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.8)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100 }}>
-                    <div className="panel" style={{ width: '500px', padding: '2rem' }}>
+                <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)', display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 100 }}>
+                    <div className="panel" style={{ width: '500px', padding: '2rem', background: 'var(--panel-bg)', border: '1px solid var(--border-color)', borderRadius: '12px', boxShadow: '0 8px 32px rgba(0,0,0,0.5)' }}>
                         <h2 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--danger)' }}>
                             <AlertTriangle size={24} /> Admin Merge Protocol
                         </h2>

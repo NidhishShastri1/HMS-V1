@@ -39,7 +39,13 @@ const Dashboard = () => {
             </div>
 
             {user.role === 'ADMIN' ? (
-                <AdminPanel />
+                <>
+                    <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+                        <button className="btn" onClick={() => navigate('/services')} style={{ width: 'auto', padding: '0.75rem 2rem' }}>Services Catalog</button>
+                        <button className="btn" onClick={() => navigate('/patients')} style={{ width: 'auto', padding: '0.75rem 2rem' }}>Patient Registry</button>
+                    </div>
+                    <AdminPanel />
+                </>
             ) : (
                 <div style={{ background: 'var(--panel-bg)', padding: '2rem', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
@@ -52,7 +58,7 @@ const Dashboard = () => {
                     </p>
                     <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
                         <button className="btn" onClick={() => navigate('/patients')} style={{ width: 'auto', padding: '0.75rem 2rem' }}>Launch Primary Module</button>
-                        <button className="btn btn-secondary" style={{ width: 'auto', padding: '0.75rem 2rem' }}>View Module Logs</button>
+                        <button className="btn btn-secondary" onClick={() => navigate('/services')} style={{ width: 'auto', padding: '0.75rem 2rem' }}>Open Services Catalog</button>
                     </div>
                 </div>
             )}

@@ -1,0 +1,61 @@
+import React, { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
+import AdminPanel from '../components/AdminPanel';
+import { Activity, Users, ShieldCheck, Cpu } from 'lucide-react';
+
+const Dashboard = () => {
+    const { user } = useContext(AuthContext);
+
+    return (
+        <div>
+            <h2 style={{ marginBottom: '2rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '1rem' }}>
+                System Dashboard
+            </h2>
+
+            <div className="stats-grid">
+                <div className="stat-card">
+                    <div className="flex-between">
+                        <h3>System Status</h3>
+                        <Activity color="var(--success)" size={20} />
+                    </div>
+                    <p style={{ color: 'var(--success)', fontSize: '1.2rem' }}>Online & Secure</p>
+                </div>
+                <div className="stat-card">
+                    <div className="flex-between">
+                        <h3>Active Network</h3>
+                        <Cpu color="var(--brand-color)" size={20} />
+                    </div>
+                    <p style={{ fontSize: '1.2rem' }}>Offline LAN</p>
+                </div>
+                <div className="stat-card">
+                    <div className="flex-between">
+                        <h3>Clearance Level</h3>
+                        <ShieldCheck color="#d29922" size={20} />
+                    </div>
+                    <p style={{ fontSize: '1.2rem', textTransform: 'uppercase' }}>{user.role}</p>
+                </div>
+            </div>
+
+            {user.role === 'ADMIN' ? (
+                <AdminPanel />
+            ) : (
+                <div style={{ background: 'var(--panel-bg)', padding: '2rem', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1rem' }}>
+                        <Users size={32} color="var(--brand-color)" />
+                        <h3 style={{ fontSize: '1.5rem' }}>{user.role === 'RECEPTION' ? 'Patient Registration Module' : 'Supervisory Overview'}</h3>
+                    </div>
+                    <p style={{ color: 'var(--text-secondary)' }}>
+                        Welcome to the HMS Core. Your module is currently functioning within secure parameters.
+                        All actions are being logged. No unauthorized transmissions detected.
+                    </p>
+                    <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
+                        <button className="btn" style={{ width: 'auto', padding: '0.75rem 2rem' }}>Launch Primary Module</button>
+                        <button className="btn btn-secondary" style={{ width: 'auto', padding: '0.75rem 2rem' }}>View Module Logs</button>
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default Dashboard;

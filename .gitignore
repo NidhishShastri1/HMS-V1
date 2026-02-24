@@ -1,0 +1,25 @@
+# Node / React
+node_modules/
+dist/
+.env
+.env.local
+
+# Java / Spring Boot
+target/
+*.jar
+*.war
+.mvn/
+mvnw
+mvnw.cmd
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db

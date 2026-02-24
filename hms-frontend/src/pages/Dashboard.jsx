@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import AdminPanel from '../components/AdminPanel';
 import { Activity, Users, ShieldCheck, Cpu } from 'lucide-react';
 
 const Dashboard = () => {
     const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     return (
         <div>
@@ -49,7 +51,7 @@ const Dashboard = () => {
                         All actions are being logged. No unauthorized transmissions detected.
                     </p>
                     <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
-                        <button className="btn" style={{ width: 'auto', padding: '0.75rem 2rem' }}>Launch Primary Module</button>
+                        <button className="btn" onClick={() => navigate('/patients')} style={{ width: 'auto', padding: '0.75rem 2rem' }}>Launch Primary Module</button>
                         <button className="btn btn-secondary" style={{ width: 'auto', padding: '0.75rem 2rem' }}>View Module Logs</button>
                     </div>
                 </div>

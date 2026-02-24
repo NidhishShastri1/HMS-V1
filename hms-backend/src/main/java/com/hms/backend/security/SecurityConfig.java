@@ -46,15 +46,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login", "/api/auth/logout").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/patients/**").hasAnyRole("ADMIN", "RECEPTION")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .maximumSessions(1)
                         .maxSessionsPreventsLogin(true) // Block multiple simultaneous logins
                 )
-                .logout(logout -> logout
-                        .logoutUrl("/api/auth/logout")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID"));
+                .logout(AbstractHttpConfigurer::disable);
 
         return http.build();
     }

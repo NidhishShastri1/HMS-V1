@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import ForcePasswordChange from './components/ForcePasswordChange';
 import Topbar from './components/Topbar';
+import Patients from './pages/Patients';
 
 const AutoLogout = ({ children }) => {
     const { logout } = useContext(AuthContext);
@@ -82,6 +83,14 @@ function AppRoutes() {
                 element={
                     <ProtectedRoute>
                         <Dashboard />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/patients"
+                element={
+                    <ProtectedRoute allowedRoles={['ADMIN', 'RECEPTION']}>
+                        <Patients />
                     </ProtectedRoute>
                 }
             />

@@ -16,6 +16,7 @@ public class PatientDto {
     private String idProof;
     private String registrationDate;
     private String createdBy;
+    private String registrationType;
 
     public PatientDto(Patient patient) {
         this.id = patient.getId();
@@ -32,6 +33,7 @@ public class PatientDto {
         this.registrationDate = patient.getRegistrationDate() != null ? patient.getRegistrationDate().format(formatter)
                 : null;
         this.createdBy = patient.getCreatedBy();
+        this.registrationType = patient.getRegistrationType() != null ? patient.getRegistrationType().name() : null;
     }
 
     public Long getId() {
@@ -80,5 +82,9 @@ public class PatientDto {
 
     public String getCreatedBy() {
         return createdBy;
+    }
+
+    public String getRegistrationType() {
+        return registrationType;
     }
 }

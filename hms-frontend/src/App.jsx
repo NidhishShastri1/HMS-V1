@@ -7,6 +7,7 @@ import ForcePasswordChange from './components/ForcePasswordChange';
 import Topbar from './components/Topbar';
 import Patients from './pages/Patients';
 import Services from './pages/Services';
+import OpdBilling from './pages/OpdBilling';
 
 const AutoLogout = ({ children }) => {
     const { logout } = useContext(AuthContext);
@@ -100,6 +101,14 @@ function AppRoutes() {
                 element={
                     <ProtectedRoute allowedRoles={['ADMIN', 'RECEPTION', 'SUPERVISOR']}>
                         <Services />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/billing"
+                element={
+                    <ProtectedRoute allowedRoles={['ADMIN', 'RECEPTION']}>
+                        <OpdBilling />
                     </ProtectedRoute>
                 }
             />

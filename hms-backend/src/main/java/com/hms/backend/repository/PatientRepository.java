@@ -13,18 +13,19 @@ import java.util.Optional;
 @Repository
 public interface PatientRepository extends JpaRepository<Patient, Long> {
 
-    Optional<Patient> findByPatientIdAndIsDeletedFalse(String patientId);
+        Optional<Patient> findByPatientIdAndIsDeletedFalse(String patientId);
 
-    Optional<Patient> findByIdAndIsDeletedFalse(Long id);
+        Optional<Patient> findByIdAndIsDeletedFalse(Long id);
 
-    List<Patient> findByIsDeletedFalseOrderByRegistrationDateDesc();
+        List<Patient> findByIsDeletedFalseAndRegistrationTypeOrderByRegistrationDateDesc(
+                        com.hms.backend.model.RegistrationType type);
 
-    @Query("SELECT p FROM Patient p WHERE p.isDeleted = false AND " +
-            "(LOWER(p.patientId) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-            "LOWER(p.phone) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-            "LOWER(CONCAT(p.firstName, ' ', p.lastName)) LIKE LOWER(CONCAT('%', :keyword, '%')))")
-    List<Patient> searchPatients(@Param("keyword") String keyword);
+        @Query("SELECT p FROM Patient p WHERE p.isDeleted = false AND p.registrationType = 'IPD' AND " +
+                        "(LOWER(p.patientId) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+                        "LOWER(p.phone) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+                        "LOWER(CONCAT(p.firstName, ' ', p.lastName)) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+        List<Patient> searchPatients(@Param("keyword") String keyword);
 
-    boolean existsByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndPhoneAndDateOfBirthAndIsDeletedFalse(
-            String firstName, String lastName, String phone, LocalDate dateOfBirth);
+        boolean existsByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndPhoneAndDateOfBirthAndIsDeletedFalse(
+                        String firstName, String lastName, String phone, LocalDate dateOfBirth);
 }

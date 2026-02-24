@@ -41,6 +41,7 @@ const Dashboard = () => {
             {user.role === 'ADMIN' ? (
                 <>
                     <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
+                        <button className="btn" onClick={() => navigate('/billing')} style={{ width: 'auto', padding: '0.75rem 2rem', background: 'var(--brand-color)' }}>OPD Billing & Visits</button>
                         <button className="btn" onClick={() => navigate('/services')} style={{ width: 'auto', padding: '0.75rem 2rem' }}>Services Catalog</button>
                         <button className="btn" onClick={() => navigate('/patients')} style={{ width: 'auto', padding: '0.75rem 2rem' }}>Patient Registry</button>
                     </div>
@@ -57,8 +58,8 @@ const Dashboard = () => {
                         All actions are being logged. No unauthorized transmissions detected.
                     </p>
                     <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
-                        <button className="btn" onClick={() => navigate('/patients')} style={{ width: 'auto', padding: '0.75rem 2rem' }}>Launch Primary Module</button>
-                        <button className="btn btn-secondary" onClick={() => navigate('/services')} style={{ width: 'auto', padding: '0.75rem 2rem' }}>Open Services Catalog</button>
+                        <button className="btn" onClick={() => navigate('/billing')} style={{ width: 'auto', padding: '0.75rem 2rem', background: 'var(--brand-color)' }}>Launch OPD Billing</button>
+                        <button className="btn btn-secondary" onClick={() => navigate('/patients')} style={{ width: 'auto', padding: '0.75rem 2rem' }}>Patient Registry</button>
                     </div>
                 </div>
             )}

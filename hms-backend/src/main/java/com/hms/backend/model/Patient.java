@@ -16,7 +16,7 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "patient_id", unique = true, updatable = false)
+    @Column(name = "patient_id", unique = true)
     private String patientId;
 
     @Column(name = "first_name", nullable = false)
@@ -54,6 +54,10 @@ public class Patient {
 
     @Column(name = "created_by", updatable = false)
     private String createdBy;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "registration_type", nullable = false)
+    private RegistrationType registrationType = RegistrationType.IPD;
 
     public Patient() {
     }
@@ -176,5 +180,13 @@ public class Patient {
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public RegistrationType getRegistrationType() {
+        return registrationType;
+    }
+
+    public void setRegistrationType(RegistrationType registrationType) {
+        this.registrationType = registrationType;
     }
 }

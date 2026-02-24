@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/patients/**").hasAnyRole("ADMIN", "RECEPTION")
                         .requestMatchers("/api/services/**").hasAnyRole("ADMIN", "RECEPTION", "SUPERVISOR")
+                        .requestMatchers("/api/opd/**").hasAnyRole("ADMIN", "RECEPTION", "SUPERVISOR")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .maximumSessions(1)

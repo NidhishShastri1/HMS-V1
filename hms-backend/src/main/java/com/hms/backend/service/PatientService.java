@@ -81,7 +81,10 @@ public class PatientService {
 
     @Transactional(readOnly = true)
     public List<PatientDto> getAllPatients() {
-        return patientRepository.findByIsDeletedFalseOrderByRegistrationDateDesc().stream()
+        return patientRepository
+                .findByIsDeletedFalseAndRegistrationTypeOrderByRegistrationDateDesc(
+                        com.hms.backend.model.RegistrationType.IPD)
+                .stream()
                 .map(PatientDto::new)
                 .collect(Collectors.toList());
     }

@@ -15,7 +15,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "payments")
+@Table(name = "payments", indexes = {
+        @Index(name = "idx_payment_date", columnList = "payment_date_time"),
+        @Index(name = "idx_payment_mode", columnList = "payment_mode")
+})
 public class Payment {
 
     @Id
@@ -44,4 +47,10 @@ public class Payment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "received_by_user_id", nullable = false, updatable = false)
     private User receivedBy;
+
+    @Column(name = "record_hash")
+    private String recordHash;
+
+    @Column(name = "previous_hash")
+    private String previousHash;
 }

@@ -41,9 +41,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/login", "/api/auth/logout").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/api/patients/**").hasAnyRole("ADMIN", "RECEPTION")
-                        .requestMatchers("/api/services/**").hasAnyRole("ADMIN", "RECEPTION", "SUPERVISOR")
-                        .requestMatchers("/api/opd/**").hasAnyRole("ADMIN", "RECEPTION", "SUPERVISOR")
+                        .requestMatchers("/api/patients/**").hasAnyRole("ADMIN", "RECEPTION", "DOCTOR")
+                        .requestMatchers("/api/services/**").hasAnyRole("ADMIN", "RECEPTION", "SUPERVISOR", "DOCTOR")
+                        .requestMatchers("/api/opd/**").hasAnyRole("ADMIN", "RECEPTION", "SUPERVISOR", "DOCTOR")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session
                         .maximumSessions(1)

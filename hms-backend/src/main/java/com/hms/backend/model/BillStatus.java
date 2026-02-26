@@ -5,6 +5,7 @@ public enum BillStatus {
     PAYMENT_PENDING,
     PAID,
     LOCKED,
+    FINALIZED,
     ARCHIVED,
     CANCELLED
 }

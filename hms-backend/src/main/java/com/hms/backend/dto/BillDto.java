@@ -31,4 +31,6 @@ public class BillDto {
     private String createdBy;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private boolean isAdjusted;
+    private LocalDateTime adjustedAt;
 }

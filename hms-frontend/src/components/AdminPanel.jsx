@@ -8,7 +8,7 @@ const AdminPanel = () => {
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState('users');
 
-    const [schema] = useState(['ADMIN', 'RECEPTION', 'SUPERVISOR']);
+    const [schema] = useState(['ADMIN', 'RECEPTION', 'SUPERVISOR', 'DOCTOR']);
     const [newUser, setNewUser] = useState({ username: '', password: '', role: 'RECEPTION' });
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedUser, setSelectedUser] = useState(null);

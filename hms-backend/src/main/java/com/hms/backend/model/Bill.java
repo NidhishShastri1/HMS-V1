@@ -18,7 +18,9 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "bills")
+@Table(name = "bills", indexes = {
+        @Index(name = "idx_bill_is_adjusted", columnList = "is_adjusted")
+})
 public class Bill {
 
     @Id
@@ -79,4 +81,17 @@ public class Bill {
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
+
+    @Builder.Default
+    @Column(name = "is_adjusted", nullable = false)
+    private boolean isAdjusted = false;
+
+    @Column(name = "adjusted_at")
+    private LocalDateTime adjustedAt;
+
+    @Column(name = "record_hash")
+    private String recordHash;
+
+    @Column(name = "previous_hash")
+    private String previousHash;
 }

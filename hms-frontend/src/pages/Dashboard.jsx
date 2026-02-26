@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import AdminPanel from '../components/AdminPanel';
-import { Activity, Users, ShieldCheck, Cpu } from 'lucide-react';
+import { Activity, Users, ShieldCheck, Cpu, TrendingUp } from 'lucide-react';
 
 const Dashboard = () => {
     const { user } = useContext(AuthContext);
@@ -58,8 +58,17 @@ const Dashboard = () => {
                         All actions are being logged. No unauthorized transmissions detected.
                     </p>
                     <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
-                        <button className="btn" onClick={() => navigate('/billing')} style={{ width: 'auto', padding: '0.75rem 2rem', background: 'var(--brand-color)' }}>Launch OPD Billing</button>
+                        {user.role === 'DOCTOR' ? (
+                            <button className="btn" onClick={() => navigate('/financial-dashboard')} style={{ width: 'auto', padding: '0.75rem 2rem', background: 'var(--brand-color)' }}>
+                                <TrendingUp size={18} style={{ marginRight: '8px' }} /> Financial Oversight
+                            </button>
+                        ) : (
+                            <button className="btn" onClick={() => navigate('/billing')} style={{ width: 'auto', padding: '0.75rem 2rem', background: 'var(--brand-color)' }}>Launch OPD Billing</button>
+                        )}
                         <button className="btn btn-secondary" onClick={() => navigate('/patients')} style={{ width: 'auto', padding: '0.75rem 2rem' }}>Patient Registry</button>
+                        {user.role === 'DOCTOR' && (
+                            <button className="btn btn-secondary" onClick={() => navigate('/services')} style={{ width: 'auto', padding: '0.75rem 2rem' }}>Services Catalog</button>
+                        )}
                     </div>
                 </div>
             )}

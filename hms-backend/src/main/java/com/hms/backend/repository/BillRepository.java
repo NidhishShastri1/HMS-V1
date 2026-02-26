@@ -11,4 +11,8 @@ public interface BillRepository extends JpaRepository<Bill, Long> {
     Optional<Bill> findByBillId(String billId);
 
     Optional<Bill> findByVisit_VisitId(String visitId);
+
+    Optional<Bill> findTopByOrderByIdDesc();
+
+    long countByIsAdjustedTrue();
 }

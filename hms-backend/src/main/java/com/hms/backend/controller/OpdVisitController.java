@@ -73,6 +73,13 @@ public class OpdVisitController {
         return ResponseEntity.ok(opdVisitService.finalizeBill(billId));
     }
 
+    @PostMapping("/bills/{billId}/adjust")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<BillDto> adjustBill(@PathVariable String billId,
+            @Valid @RequestBody BillAdjustmentRequest request) {
+        return ResponseEntity.ok(opdVisitService.adjustBill(billId, request));
+    }
+
     @PostMapping("/bills/{billId}/cancel")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<BillDto> cancelBill(@PathVariable String billId) {

@@ -8,6 +8,7 @@ import Topbar from './components/Topbar';
 import Patients from './pages/Patients';
 import Services from './pages/Services';
 import OpdBilling from './pages/OpdBilling';
+import FinancialDashboard from './pages/FinancialDashboard';
 
 const AutoLogout = ({ children }) => {
     const { logout } = useContext(AuthContext);
@@ -91,7 +92,7 @@ function AppRoutes() {
             <Route
                 path="/patients"
                 element={
-                    <ProtectedRoute allowedRoles={['ADMIN', 'RECEPTION']}>
+                    <ProtectedRoute allowedRoles={['ADMIN', 'RECEPTION', 'DOCTOR']}>
                         <Patients />
                     </ProtectedRoute>
                 }
@@ -99,7 +100,7 @@ function AppRoutes() {
             <Route
                 path="/services"
                 element={
-                    <ProtectedRoute allowedRoles={['ADMIN', 'RECEPTION', 'SUPERVISOR']}>
+                    <ProtectedRoute allowedRoles={['ADMIN', 'RECEPTION', 'SUPERVISOR', 'DOCTOR']}>
                         <Services />
                     </ProtectedRoute>
                 }
@@ -109,6 +110,14 @@ function AppRoutes() {
                 element={
                     <ProtectedRoute allowedRoles={['ADMIN', 'RECEPTION']}>
                         <OpdBilling />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/financial-dashboard"
+                element={
+                    <ProtectedRoute allowedRoles={['DOCTOR']}>
+                        <FinancialDashboard />
                     </ProtectedRoute>
                 }
             />

@@ -23,3 +23,8 @@ mvnw.cmd
 # OS
 .DS_Store
 Thumbs.db
+
+# Logs & Dumps
+*.log
+manual_backup.sql
+*.sql.bak

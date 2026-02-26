@@ -10,7 +10,6 @@ import {
     FileText,
     Printer,
     Clock,
-    User,
     Stethoscope,
     ShoppingCart,
     DollarSign
@@ -20,9 +19,6 @@ const OpdBilling = () => {
     const { user } = useContext(AuthContext);
 
     // States
-    const [searchQuery, setSearchQuery] = useState('');
-    const [patients, setPatients] = useState([]);
-    const [selectedPatient, setSelectedPatient] = useState(null);
     const [services, setServices] = useState([]);
     const [filterCategory, setFilterCategory] = useState('ALL');
     const [searchServiceQuery, setSearchServiceQuery] = useState('');
@@ -80,7 +76,6 @@ const OpdBilling = () => {
     };
 
     const resetForm = () => {
-        setSelectedPatient(null);
         setCurrentVisit(null);
         setCurrentBill(null);
         setFirstName('');
@@ -354,7 +349,6 @@ const OpdBilling = () => {
                                             <button
                                                 style={{ background: 'none', border: 'none', color: 'var(--brand-color)', fontSize: '0.75rem', cursor: 'pointer', padding: 0 }}
                                                 onClick={() => {
-                                                    setSelectedPatient({ patientId: v.patientId, firstName: v.patientName, lastName: '' });
                                                     setCurrentVisit(v);
                                                     fetchBill(v.billId);
                                                 }}

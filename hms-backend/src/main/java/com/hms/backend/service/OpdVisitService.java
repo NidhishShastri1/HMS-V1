@@ -1,10 +1,12 @@
 package com.hms.backend.service;
 
 import com.hms.backend.dto.*;
+import com.hms.backend.event.AuditEvent;
 import com.hms.backend.model.*;
 import com.hms.backend.repository.*;
 import com.hms.backend.util.AmountInWordsConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,6 +40,9 @@ public class OpdVisitService {
 
     @Autowired
     private HospitalServiceRepository hospitalServiceRepository;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     private User getCurrentUser() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -110,9 +115,17 @@ public class OpdVisitService {
 
         Bill savedBill = billRepository.save(bill);
 
-        // Link bill back to visit
         savedVisit.setBill(savedBill);
         opdVisitRepository.save(savedVisit);
+
+        // --- PHASE 2: AUDIT ENGINE (Decoupled, Passive) ---
+        eventPublisher.publishEvent(AuditEvent.builder()
+                .entityName("BILL")
+                .entityId(savedBill.getBillId())
+                .actionType("CREATE")
+                .newValue("Quick Billing for: " + savedPatient.getFirstName() + " " + savedPatient.getLastName())
+                .performedByUserId(currentUser.getUsername())
+                .build());
 
         return mapToBillDto(savedBill, new java.util.ArrayList<>(), new java.util.ArrayList<>());
     }

@@ -36,9 +36,15 @@ public class OpdVisitController {
     }
 
     @GetMapping("/visits/{visitId}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTION', 'SUPERVISOR')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTION', 'SUPERVISOR', 'DOCTOR')")
     public ResponseEntity<OpdVisitDto> getVisit(@PathVariable String visitId) {
         return ResponseEntity.ok(opdVisitService.getVisitById(visitId));
+    }
+
+    @GetMapping("/patient/{patientId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'RECEPTION', 'SUPERVISOR', 'DOCTOR')")
+    public ResponseEntity<List<OpdVisitDto>> getVisitsByPatientId(@PathVariable String patientId) {
+        return ResponseEntity.ok(opdVisitService.getVisitsByPatientId(patientId));
     }
 
     @GetMapping("/bills/{billId}")

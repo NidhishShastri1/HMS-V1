@@ -48,6 +48,35 @@ public class OpdVisit {
     @Column(nullable = false)
     private VisitStatus status = VisitStatus.OPEN;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "visit_status", nullable = false, columnDefinition = "varchar(255) default 'CREATED'")
+    @Builder.Default
+    private ClinicalVisitStatus visitStatus = ClinicalVisitStatus.CREATED;
+
+    @Column(name = "primary_doctor_id")
+    private Long primaryDoctorId;
+
+    @Column(name = "clinical_locked", nullable = false, columnDefinition = "boolean default false")
+    @Builder.Default
+    private boolean clinicalLocked = false;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "ipd_status")
+    private IpdStatus ipdStatus;
+
+    @Column(name = "admission_timestamp")
+    private LocalDateTime admissionTimestamp;
+
+    @Column(name = "discharge_timestamp")
+    private LocalDateTime dischargeTimestamp;
+
+    @Column(name = "discharge_summary_note", columnDefinition = "TEXT")
+    private String dischargeSummaryNote;
+
+    @Column(name = "final_settlement_locked", nullable = false, columnDefinition = "boolean default false")
+    @Builder.Default
+    private boolean finalSettlementLocked = false;
+
     @Column(columnDefinition = "TEXT")
     private String notes;
 

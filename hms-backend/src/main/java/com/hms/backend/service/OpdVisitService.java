@@ -163,6 +163,11 @@ public class OpdVisitService {
                                 .createdBy(currentUser)
                                 .build();
 
+                if (patient.getRegistrationType() == com.hms.backend.model.RegistrationType.IPD) {
+                        visit.setIpdStatus(IpdStatus.ADMITTED);
+                        visit.setAdmissionTimestamp(LocalDateTime.now());
+                }
+
                 OpdVisit savedVisit = opdVisitRepository.save(visit);
 
                 // Auto-generate draft bill
@@ -194,6 +199,13 @@ public class OpdVisitService {
                 OpdVisit v = opdVisitRepository.findByVisitId(visitId)
                                 .orElseThrow(() -> new RuntimeException("Visit not found"));
                 return mapToOpdVisitDto(v, v.getBill());
+        }
+
+        public List<OpdVisitDto> getVisitsByPatientId(String patientId) {
+                return opdVisitRepository.findAll().stream()
+                                .filter(v -> v.getPatient().getPatientId().equals(patientId))
+                                .map(v -> mapToOpdVisitDto(v, v.getBill()))
+                                .collect(Collectors.toList());
         }
 
         @Transactional
@@ -481,6 +493,11 @@ public class OpdVisitService {
                                 .visitCategory(visit.getVisitCategory())
                                 .visitDateTime(visit.getVisitDateTime())
                                 .status(visit.getStatus())
+                                .visitStatus(visit.getVisitStatus())
+                                .ipdStatus(visit.getIpdStatus())
+                                .admissionTimestamp(visit.getAdmissionTimestamp())
+                                .dischargeTimestamp(visit.getDischargeTimestamp())
+                                .finalSettlementLocked(visit.isFinalSettlementLocked())
                                 .notes(visit.getNotes())
                                 .billId(bill != null ? bill.getBillId() : null)
                                 .createdAt(visit.getCreatedAt())

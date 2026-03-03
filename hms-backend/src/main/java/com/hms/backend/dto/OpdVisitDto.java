@@ -1,5 +1,7 @@
 package com.hms.backend.dto;
 
+import com.hms.backend.model.ClinicalVisitStatus;
+import com.hms.backend.model.IpdStatus;
 import com.hms.backend.model.VisitCategory;
 import com.hms.backend.model.VisitStatus;
 import lombok.Builder;
@@ -20,6 +22,11 @@ public class OpdVisitDto {
     private VisitStatus status;
     private String notes;
     private String billId;
+    private ClinicalVisitStatus visitStatus;
+    private IpdStatus ipdStatus;
+    private LocalDateTime admissionTimestamp;
+    private LocalDateTime dischargeTimestamp;
+    private boolean finalSettlementLocked;
     private LocalDateTime createdAt;
     private String createdBy;
 }

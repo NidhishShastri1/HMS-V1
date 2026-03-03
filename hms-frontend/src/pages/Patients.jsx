@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext, useRef } from 'react';
 import api from '../api/axios';
 import { AuthContext } from '../context/AuthContext';
 import { UserPlus, Search, Building2, User, Edit, FileText, AlertTriangle, Printer, Trash2, GitMerge } from 'lucide-react';
+import ClinicalTab from '../components/ClinicalTab';
+import IpdTab from '../components/IpdTab';
 
 const Patients = () => {
     const { user } = useContext(AuthContext);
@@ -11,6 +13,9 @@ const Patients = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [viewingPatient, setViewingPatient] = useState(null);
     const [activeTab, setActiveTab] = useState('info');
+    const [patientVisits, setPatientVisits] = useState([]);
+    const [selectedVisitId, setSelectedVisitId] = useState(null);
+    const [loadingVisits, setLoadingVisits] = useState(false);
 
     // Registration/Edit Modal State
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,6 +29,19 @@ const Patients = () => {
     const [mergeTargetId, setMergeTargetId] = useState('');
 
     const autoFocusRef = useRef(null);
+
+    const fetchPatientVisits = async (patientId) => {
+        setLoadingVisits(true);
+        try {
+            const res = await api.get(`/opd/patient/${patientId}`);
+            setPatientVisits(res.data);
+            setSelectedVisitId(null);
+        } catch (err) {
+            console.error('Failed to load visits', err);
+        } finally {
+            setLoadingVisits(false);
+        }
+    };
 
     useEffect(() => {
         fetchPatients();
@@ -170,7 +188,7 @@ const Patients = () => {
 
                 <div style={{ display: 'flex', gap: '2rem', borderBottom: '1px solid var(--border-color)', marginBottom: '1rem' }}>
                     <div className={`tab ${activeTab === 'info' ? 'active' : ''}`} onClick={() => setActiveTab('info')} style={{ paddingBottom: '0.5rem', cursor: 'pointer', borderBottom: activeTab === 'info' ? '2px solid var(--brand-color)' : 'none' }}>Demographics</div>
-                    <div className={`tab ${activeTab === 'visits' ? 'active' : ''}`} onClick={() => setActiveTab('visits')} style={{ paddingBottom: '0.5rem', cursor: 'pointer', borderBottom: activeTab === 'visits' ? '2px solid var(--brand-color)' : 'none' }}>Visits (OPD/IPD)</div>
+                    <div className={`tab ${activeTab === 'visits' ? 'active' : ''}`} onClick={() => { setActiveTab('visits'); fetchPatientVisits(viewingPatient.patientId); }} style={{ paddingBottom: '0.5rem', cursor: 'pointer', borderBottom: activeTab === 'visits' ? '2px solid var(--brand-color)' : 'none' }}>Visit History</div>
                     <div className={`tab ${activeTab === 'bills' ? 'active' : ''}`} onClick={() => setActiveTab('bills')} style={{ paddingBottom: '0.5rem', cursor: 'pointer', borderBottom: activeTab === 'bills' ? '2px solid var(--brand-color)' : 'none' }}>Billing Summary</div>
                 </div>
 
@@ -190,8 +208,48 @@ const Patients = () => {
                 )}
 
                 {activeTab === 'visits' && (
-                    <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
-                        Visit History Module (In Development - Phase 3)
+                    <div style={{ padding: '1rem 0' }}>
+                        {loadingVisits ? <p>Loading visits...</p> : (
+                            <>
+                                {patientVisits.length === 0 ? <p style={{ color: 'var(--text-secondary)' }}>No visit history found.</p> : (
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                                        {patientVisits.map(visit => (
+                                            <div key={visit.visitId} style={{ border: '1px solid var(--border-color)', borderRadius: '8px', overflow: 'hidden' }}>
+                                                <div
+                                                    style={{ padding: '1rem', background: 'var(--panel-bg)', cursor: 'pointer', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+                                                    onClick={() => setSelectedVisitId(selectedVisitId === visit.visitId ? null : visit.visitId)}
+                                                >
+                                                    <div>
+                                                        <strong>{visit.visitId}</strong> - {visit.department} ({visit.visitCategory})
+                                                        <span style={{ marginLeft: '1rem', color: 'var(--text-secondary)' }}>{new Date(visit.visitDateTime).toLocaleString()}</span>
+                                                    </div>
+                                                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                                                        <span style={{ padding: '0.2rem 0.6rem', borderRadius: '4px', fontSize: '0.8rem', background: visit.visitStatus === 'CLOSED' ? '#444' : 'var(--brand-color)' }}>{visit.visitStatus || 'OPEN'}</span>
+                                                        <span style={{ padding: '0.2rem 0.6rem', borderRadius: '4px', fontSize: '0.8rem', background: '#333' }}>{visit.status}</span>
+                                                    </div>
+                                                </div>
+                                                {selectedVisitId === visit.visitId && (
+                                                    <div style={{ padding: '1rem', borderTop: '1px solid var(--border-color)', background: '#181e2e' }}>
+                                                        {visit.visitCategory === 'IPD' && (
+                                                            <div style={{ marginBottom: '2rem' }}>
+                                                                <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', borderBottom: '1px solid var(--border-color)' }}>
+                                                                    <div className="tab active" style={{ borderBottom: '2px solid var(--brand-color)', paddingBottom: '0.5rem' }}>IPD Tracking</div>
+                                                                </div>
+                                                                <IpdTab visitId={visit.visitId} initialIpdStatus={visit.ipdStatus} finalSettlementLocked={visit.finalSettlementLocked} />
+                                                            </div>
+                                                        )}
+                                                        <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem', borderBottom: '1px solid var(--border-color)' }}>
+                                                            <div className="tab active" style={{ borderBottom: '2px solid var(--brand-color)', paddingBottom: '0.5rem' }}>Clinical Data ({visit.visitCategory})</div>
+                                                        </div>
+                                                        <ClinicalTab visitId={visit.visitId} visitStatus={visit.visitStatus} />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </>
+                        )}
                     </div>
                 )}
 
